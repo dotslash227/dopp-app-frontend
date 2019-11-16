@@ -3,6 +3,7 @@ import {Container, Content} from 'native-base';
 import {Text, View, StyleSheet} from 'react-native';
 import HeaderBar from '../components/HeaderBar';
 import axios from "axios";
+import {SliderBox} from 'react-native-image-slider-box'
 
 class HomeScreen extends React.Component{
 
@@ -13,25 +14,31 @@ class HomeScreen extends React.Component{
         }        
     }        
 
-    componentDidMount(){
-        let query = {"query":"{slides:allSliders{id, title, image}}"}
+    componentWillMount(){
+        let query = {"query":"{slides:allSliders{id, title, imageUrl}}"}        
         axios({
             method: 'post',
             url: 'http://localhost:8000/graphql',
             data: query
         }).then((response)=>{
-            let slides = response.data.data.slides;
-            this.setState({slides});            
+            let slides = response.data.data.slides;            
+            let slider_arr = []
+            slides.map((item)=>{
+                slider_arr.push(item.imageUrl);
+            })
+            this.setState({slides:slider_arr});
+            // this.setState({slides});
+            console.log(this.state.slides);
         })                
     }
 
-    render(){                
+    render(){               
         return(            
             <Container>
                 <HeaderBar title="Home" />
                 <Content>                    
                     <Text>Hello World</Text>
-                    {/* {slides} */}
+                    <SliderBox images={this.state.slides} sliderBoxHeight={200} style={styles.slider} />
                 </Content>
             </Container>
         )
@@ -42,6 +49,10 @@ const styles = StyleSheet.create({
     text: {
         color: "black",
         fontSize: 100
+    },
+    slider:{
+        marginTop:100,
+        height: 100
     }
 })
 
