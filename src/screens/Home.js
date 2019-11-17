@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container, Content} from 'native-base';
+import {Container, Content, Card, CardItem, Left, Body, Right} from 'native-base';
 import {Text, View, StyleSheet} from 'react-native';
 import HeaderBar from '../components/HeaderBar';
 import axios from "axios";
@@ -12,9 +12,9 @@ class HomeScreen extends React.Component{
         this.state = {   
             slides: []
         }        
-    }        
-
-    componentWillMount(){
+    }     
+    
+    showBanners(){
         let query = {"query":"{slides:allSliders{id, title, imageUrl}}"}        
         axios({
             method: 'post',
@@ -29,16 +29,42 @@ class HomeScreen extends React.Component{
             this.setState({slides:slider_arr});
             // this.setState({slides});
             console.log(this.state.slides);
-        })                
+        })
+        return <SliderBox parentWidth={450} images={this.state.slides} style={styles.slider} />;
+    }
+
+    componentDidMount(){        
     }
 
     render(){               
         return(            
             <Container>
                 <HeaderBar title="Home" />
-                <Content>                    
-                    <Text>Hello World</Text>
-                    <SliderBox images={this.state.slides} sliderBoxHeight={200} style={styles.slider} />
+                {this.showBanners()}
+                <Content padder>                    
+                    <View style={styles.bottomBar}>
+                        <Text style={styles.headerText}>Today's Top Deals</Text>
+                    </View>                    
+                    <Card>
+                        <CardItem header bordered>
+                            <Text style={styles.headerText}>Your recent orders</Text>
+                        </CardItem>
+                        <CardItem bordered>
+                            <Left><Text>Order # 2180</Text></Left>
+                            <Body><Text>27th March 2019</Text></Body>
+                            <Right><Text>INR 400</Text></Right>
+                        </CardItem>
+                        <CardItem bordered>
+                            <Left><Text>Order # 2180</Text></Left>
+                            <Body><Text>27th March 2019</Text></Body>
+                            <Right><Text>INR 400</Text></Right>
+                        </CardItem>
+                        <CardItem bordered>
+                            <Left><Text>Order # 2180</Text></Left>
+                            <Body><Text>27th March 2019</Text></Body>
+                            <Right><Text>INR 400</Text></Right>
+                        </CardItem>
+                    </Card>                       
                 </Content>
             </Container>
         )
@@ -46,13 +72,18 @@ class HomeScreen extends React.Component{
 }
 
 const styles = StyleSheet.create({
-    text: {
-        color: "black",
-        fontSize: 100
+    bottomBar:{
+        marginTop:5,
+        borderBottomColor:"#cb4335", 
+        borderBottomWidth:1
+    },    
+    slider:{        
+        height: 100,
+        marginBottom: 20,        
     },
-    slider:{
-        marginTop:100,
-        height: 100
+    headerText:{        
+        color: "#cb4335",
+        fontSize:25,        
     }
 })
 

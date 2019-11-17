@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import HomeScreen from '../screens/Home';
+import ContactLenses from '../screens/ContactLenses';
 import { createAppContainer } from 'react-navigation';
 import {Icon} from 'native-base';
 
@@ -16,7 +17,7 @@ const TabNavigator = createBottomTabNavigator({
         }
     },
     Lenses: {
-        screen: HomeScreen,
+        screen: ContactLenses,
         navigationOptions:{
             tabBarIcon: ()=>{
                 return <Icon type="MaterialIcons" name="toll" style={styles.icon} />
