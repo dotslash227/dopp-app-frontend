@@ -1,6 +1,6 @@
 import React from 'react';
-import {Container, Content, Card, CardItem, Left, Body, Right} from 'native-base';
-import {Text, View, StyleSheet} from 'react-native';
+import {Container, Content, Card, CardItem, Left, Body, Right, Footer} from 'native-base';
+import {Text, View, StyleSheet, Image} from 'react-native';
 import HeaderBar from '../components/HeaderBar';
 import axios from "axios";
 import {SliderBox} from 'react-native-image-slider-box'
@@ -26,25 +26,35 @@ class HomeScreen extends React.Component{
             slides.map((item)=>{
                 slider_arr.push(item.imageUrl);
             })
-            this.setState({slides:slider_arr});
-            // this.setState({slides});
+            this.setState({slides:slider_arr});            
             console.log(this.state.slides);
         })
-        return <SliderBox parentWidth={450} images={this.state.slides} style={styles.slider} />;
-    }
-
-    componentDidMount(){        
-    }
+        return <SliderBox parentWidth={390} images={this.state.slides} style={styles.slider} />;
+    }    
 
     render(){               
         return(            
             <Container>
-                <HeaderBar title="Home" />
-                {this.showBanners()}
-                <Content padder>                    
-                    <View style={styles.bottomBar}>
-                        <Text style={styles.headerText}>Today's Top Deals</Text>
-                    </View>                    
+                <HeaderBar title="Home" />                
+                <Content padder>          
+                    {this.showBanners()}          
+                    <Card>
+                        <CardItem header>
+                            <Text style={styles.headerText}>Today's Top Deals</Text>
+                        </CardItem>                        
+                        <CardItem style={{borderBottomColor:"grey", borderBottomWidth:2}}>
+                            <Left>
+                                <Image source={{uri:"https://static.feelgoodcontacts.net/contact-lenses/img/dailies-total-1786-131.png"}}
+                                style={{width:150, height:150}}
+                                />
+                            </Left>
+                            <Body>
+                                <Text style={{color:"maroon", marginBottom:10}}>Dailies Total 1</Text>
+                                <Text style={{marginBottom: 10}}>Water gradient daily disposable lenses by Alcon, comes in pack of 30 lenses.</Text>                                
+                                <Text>Buy Now: ₹2100 | MRP: ₹2600</Text>
+                            </Body>                              
+                        </CardItem>                                                                        
+                    </Card>                     
                     <Card>
                         <CardItem header bordered>
                             <Text style={styles.headerText}>Your recent orders</Text>
