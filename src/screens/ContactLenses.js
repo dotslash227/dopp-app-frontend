@@ -9,11 +9,9 @@ class ContactLenses extends React.Component{
         super(props);
         this.state = {            
             manufacturerList: [],
-            modalityList: [],
-            materialList: [],
-            manufacturer:'',
-            modality: '',
-            material: '',
+            modalityList: [],            
+            manufacturer:null,
+            modality: null,            
             productList: []            
         }
     }
@@ -27,9 +25,9 @@ class ContactLenses extends React.Component{
                 allCategories{
                     id, name
                 }
-                allProductTypes{
+                allProducts{
                     id, name
-                }
+                }          
             }
         `}
         axios({
@@ -39,45 +37,75 @@ class ContactLenses extends React.Component{
         }).then((response)=>{
             this.setState({
                 manufacturerList:response.data.data.allManufacturers,
-                modalityList: response.data.data.allCategories,
-                materialList: response.data.data.allProductTypes
-            });
-            console.log(this.state)
+                modalityList: response.data.data.allCategories,                
+                productList: response.data.data.allProducts
+            });            
         })
+        console.log(this.state.productList);
     }
 
-    fetchProductList(){
-        let query = {"query":`
-        query{
-            allProducts{
-                id, name
+    fetchProductList(){       
+        let sub_query = '';
+        if (this.state.manufacturer && !this.state.modality){
+            sub_query = `
+            query{
+                products(manufacturer:${Number(this.state.manufacturer)}){
+                    id, name
+                }
             }
+            `
+        }
+        if (this.state.modality && !this.state.manufacturer){
+            sub_query = `
+            query{
+                products(category:${Number(this.state.modality)}){
+                    id, name
+                }
+            }
+            `
+        }
+        if (this.state.manufacturer && this.state.modality){
+            sub_query = `
+            query{
+                products(category:${Number(this.state.modality)}, manufacturer:${Number(this.state.manufacturer)}){
+                    id, name
+                }
+            }
+            `
+        }
+        if (!this.state.manufacturer && !this.state.modality){
+            sub_query = `
+            query{
+                products:allProducts{
+                    id, name
+                }
+            }
+            `
         }        
-        `}        
         axios({
             method: 'post',
             url: 'http://localhost:8000/graphql',
-            data: query
+            data: {"query":sub_query}
         }).then((response)=>{
-            console.log(response.data.data.allProducts);            
+            this.setState({productList:response.data.data.products});            
         }).catch((error)=>{
             console.log(error);
         })
     }
-
-    changeMaterialFilter(material){        
-        this.setState({material});   
-        this.fetchProductList();     
-    }
-    changeManufacturerFilter(manufacturer){
+    
+    changeManufacturerFilter(manufacturer){        
         this.setState({manufacturer})
+        this.fetchProductList();             
     }
     changeModalityFilter(modality){
         this.setState({modality});
+        this.fetchProductList();     
     }
 
-    renderProductList(){
-        console.log("hello world");        
+    renderProductList(){        
+        return this.state.productList.map((item)=>{
+            return <Text>{item.name}</Text>;
+        })
     }
 
 
@@ -90,18 +118,7 @@ class ContactLenses extends React.Component{
                         <Text style={{textAlign:"center", color:"maroon"}}>Filter contact lenses by</Text>
                         <Form>  
                             <Grid>
-                                <Row>
-                                    <Col>
-                                        <Item picker>
-                                            <Picker mode="dropdown" placeholder="Material" 
-                                            selectedValue={this.state.material}
-                                            onValueChange={(text)=>this.changeMaterialFilter(text)}>
-                                                {this.state.materialList.map((item)=>{
-                                                    return <Picker.Item label={item.name} value={item.id} />
-                                                })}                                                
-                                            </Picker>                                
-                                        </Item>
-                                    </Col>
+                                <Row>                                    
                                     <Col>
                                         <Item picker>
                                             <Picker mode="dropdown" placeholder="Manufacturer"
@@ -127,8 +144,10 @@ class ContactLenses extends React.Component{
                                 </Row>
                             </Grid>                                                                                  
                         </Form>
-                    </View>       
-                    {this.renderProductList()}
+                    </View> 
+                    <View>
+                        {this.renderProductList()}            
+                    </View>                          
                 </Content>
             </Container>
         )
