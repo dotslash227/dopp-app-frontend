@@ -26,8 +26,7 @@ class HomeScreen extends React.Component{
             slides.map((item)=>{
                 slider_arr.push(item.imageUrl);
             })
-            this.setState({slides:slider_arr});            
-            console.log(this.state.slides);
+            this.setState({slides:slider_arr});                        
         })
         return <SliderBox parentWidth={390} images={this.state.slides} style={styles.slider} />;
     }    
