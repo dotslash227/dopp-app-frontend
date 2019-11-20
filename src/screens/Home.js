@@ -13,8 +13,9 @@ class HomeScreen extends React.Component{
             slides: []
         }        
     }     
-    
-    showBanners(){
+
+
+    componentDidMount(){
         let query = {"query":"{slides:allSliders{id, title, imageUrl}}"}        
         axios({
             method: 'post',
@@ -28,7 +29,10 @@ class HomeScreen extends React.Component{
             })
             this.setState({slides:slider_arr});                        
         })
-        return <SliderBox parentWidth={390} images={this.state.slides} style={styles.slider} />;
+    }
+    
+    showBanners(){        
+        return ''
     }    
 
     render(){               
@@ -36,7 +40,7 @@ class HomeScreen extends React.Component{
             <Container>
                 <HeaderBar title="Home" />                
                 <Content padder>          
-                    {this.showBanners()}          
+                    <SliderBox parentWidth={390} images={this.state.slides} style={styles.slider} /> 
                     <Card>
                         <CardItem header>
                             <Text style={styles.headerText}>Today's Top Deals</Text>
