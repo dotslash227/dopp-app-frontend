@@ -1,18 +1,25 @@
 const authState = {
     token: '',
-    userId: '',
-    userName: '',
-    userEmail: '',
-    userMobile: ''
+    id: '',
+    username: '',
+    email: '',
+    mobile: ''
 }
 
 const authReducer = (state=authState, action) =>{
     switch(action.type){
-        case "LOGIN":{} break;
-        case "LOGOUT": {} break;
-        default:{
-            state = {...state}
-        }        
+        case "LOGIN":            
+            state = {
+                ...state, token: action.payload.token,
+                id: action.payload.id, username: action.payload.username,
+                email: action.payload.email, mobile: action.payload.mobile
+            };
+            break;         
+        case "LOGOUT":
+            state = {
+                token: '', id: '', username: '', email: '', mobile: ''
+            };
+            break;        
     }
     return state;
 }

@@ -4,6 +4,7 @@ import {Text, View, StyleSheet, Image} from 'react-native';
 import HeaderBar from '../components/HeaderBar';
 import axios from "axios";
 import {SliderBox} from 'react-native-image-slider-box';
+import {userLogin} from '../actions/authActions';
 import {connect} from 'react-redux';
 
 class HomeScreen extends React.Component{
@@ -99,18 +100,20 @@ const styles = StyleSheet.create({
         color: "#cb4335",
         fontSize:25,        
     }
-})
+});
 
 const mapStateToProps = (state) =>{
     return{
         auth: state.auth
     }
-}
+};
 
 const  mapDispatchToProps = (dispatch) =>{
     return{
-
+        login: (user)=>{
+            dispatch(userLogin(user));
+        }
     }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
