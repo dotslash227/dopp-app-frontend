@@ -3,7 +3,8 @@ import {Container, Content, Card, CardItem, Left, Body, Right, Footer} from 'nat
 import {Text, View, StyleSheet, Image} from 'react-native';
 import HeaderBar from '../components/HeaderBar';
 import axios from "axios";
-import {SliderBox} from 'react-native-image-slider-box'
+import {SliderBox} from 'react-native-image-slider-box';
+import {connect} from 'react-redux';
 
 class HomeScreen extends React.Component{
 
@@ -20,7 +21,7 @@ class HomeScreen extends React.Component{
         axios({
             method: 'post',
             url: 'http://localhost:8000/graphql',
-            data: query
+            data: query 
         }).then((response)=>{
             let slides = response.data.data.slides;            
             let slider_arr = []
@@ -28,7 +29,7 @@ class HomeScreen extends React.Component{
                 slider_arr.push(item.imageUrl);
             })
             this.setState({slides:slider_arr});                        
-        })
+        })        
     }
     
     showBanners(){        
@@ -100,4 +101,16 @@ const styles = StyleSheet.create({
     }
 })
 
-export default HomeScreen;
+const mapStateToProps = (state) =>{
+    return{
+        auth: state.auth
+    }
+}
+
+const  mapDispatchToProps = (dispatch) =>{
+    return{
+
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
