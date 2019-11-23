@@ -3,8 +3,9 @@ import {StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import HomeScreen from '../screens/Home';
 import ContactLenses from '../screens/ContactLenses';
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import {Icon} from 'native-base';
+import {CLProductStackNavigator} from './ProductRoutes';
 
 const TabNavigator = createBottomTabNavigator({
     Home: {
@@ -50,6 +51,13 @@ const TabNavigator = createBottomTabNavigator({
     }
 })
 
+const switchNavigator = createSwitchNavigator({
+    MainTabs: TabNavigator,
+    ContactLenses: CLProductStackNavigator
+},{
+    initialRouteName: "MainTabs"
+})
+
 const styles = StyleSheet.create({
     icon:{
         color: "#006984",
@@ -57,4 +65,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default AppContainer = createAppContainer(TabNavigator);
+export default AppContainer = createAppContainer(switchNavigator);

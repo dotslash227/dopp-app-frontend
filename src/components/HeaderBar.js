@@ -12,7 +12,7 @@ export default class HeaderBar extends React.Component{
         return(
             <Header>
                 <Left>
-                    {this.props.left && <Icon name="arrow-back" />}
+                    {this.props.back && <Icon name="arrow-back" style={{color:"maroon"}} onPress={()=>this.props.navigation.goBack()} />}
                 </Left>
                 <Body>
                     <Text>{this.props.title}</Text>

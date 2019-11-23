@@ -58,6 +58,11 @@ class ContactLenses extends React.Component{
         }));
     }
 
+    goToProductPage(productId){
+        console.log(productId);
+        this.props.navigation.navigate("CLProductPage", {"productId":productId});
+    }
+
     renderProductList(){        
         return this.state.productList.map((item)=>{
             return (
@@ -76,7 +81,8 @@ class ContactLenses extends React.Component{
                             <Text>Buy Now Price: ₹{item.salePrice}</Text>
                             <Button full                             
                             style={{marginTop:10}}
-                            disabled={!item.available}
+                            disabled={!item.available}                            
+                            onPress={()=>{this.goToProductPage(item.id)}}
                             >
                                 <Text style={{color:"white"}}>{(item.available)?"Buy Now":"Out of Stock"}</Text>
                             </Button>
