@@ -1,22 +1,32 @@
 const cart = {
-    produdct: [],
-    count: '',
-    sub_total: ''
+    products: {},
+    count: 0,
+    sub_total: 0
 }
 
-const cartReducer = (state, action) =>{
-    switch(action.type){
+const cartReducer = (state=cart, action) =>{
+    let newState = {};
+    switch(action.type){        
         case 'ADDTOCART':
-            state = {...state}
+            newState = state;
+            newState.count = newState.count + action.payload.quantity
+            newState.sub_total = newState.sub_total + action.payload.total
+            newState.products[action.payload.id] = action.payload
+
+            // state = {
+            //     ...state, count:state.count + action.payload.quantity, 
+            //     sub_total: state.sub_total + action.payload.total                
+            // };
+            
             break;
         case 'REMOVEFROMCART':
-            state = {...state}
+            newState = {...state}
             break;
         default:
-            state = {...state}
+            newState = {...state}
                 
     }
-    return state;
+    return newState;
 }
 
 export {cartReducer}

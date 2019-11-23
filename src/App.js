@@ -12,11 +12,13 @@ import {Provider} from 'react-redux';
 import HomeScreen from './screens/Home';
 import AppContainer from './routes/MainTabs';
 import {authReducer} from './reducers/authReducer';
+import {cartReducer} from './reducers/cartReducer';
 
 console.disableYellowBox = true;
 
 const rootReducer =  combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  cart: cartReducer
 });
 
 const store = createStore(rootReducer);

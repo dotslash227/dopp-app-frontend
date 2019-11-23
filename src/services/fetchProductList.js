@@ -7,7 +7,7 @@ export default async function fetchProductList(manufacturer, modality){
         sub_query = `
         query{
             products(manufacturer:${Number(manufacturer)}){
-                id, name, mrp, discount, salePrice, mrp, manufacturer{name}, available
+                id, name, mrp, discount, salePrice, mrp, manufacturer{name}, available, build, image
             }
         }
         `
@@ -16,7 +16,7 @@ export default async function fetchProductList(manufacturer, modality){
         sub_query = `
         query{
             products(category:${Number(modality)}){
-                id, name, mrp, discount, salePrice, mrp, manufacturer{name}, available
+                id, name, mrp, discount, salePrice, mrp, manufacturer{name}, available, build, image
             }
         }
         `
@@ -25,7 +25,7 @@ export default async function fetchProductList(manufacturer, modality){
         sub_query = `
         query{
             products(category:${Number(modality)}, manufacturer:${Number(manufacturer)}){
-                id, name, mrp, discount, salePrice, mrp, manufacturer{name}, available
+                id, name, mrp, discount, salePrice, mrp, manufacturer{name}, available, build, image
             }
         }
         `

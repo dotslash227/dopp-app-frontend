@@ -18,18 +18,18 @@ const TabNavigator = createBottomTabNavigator({
         }
     },
     Lenses: {
-        screen: ContactLenses,
+        screen: CLProductStackNavigator,
         navigationOptions:{
             tabBarIcon: ()=>{
                 return <Icon type="MaterialIcons" name="toll" style={styles.icon} />
             }
-        }
-    },
+        },
+    },    
     Spectacles: {
         screen: HomeScreen,
         navigationOptions:{
             tabBarIcon: () =>{
-                return <Icon type="FontAwesome" name="glasses" style={styles.icon} />
+                return <Icon type="MaterialIcons" name="voicemail" style={styles.icon} />
             }
         }
     },
@@ -53,7 +53,7 @@ const TabNavigator = createBottomTabNavigator({
 
 const switchNavigator = createSwitchNavigator({
     MainTabs: TabNavigator,
-    ContactLenses: CLProductStackNavigator
+    // ContactLenses: CLProductStackNavigator
 },{
     initialRouteName: "MainTabs"
 })

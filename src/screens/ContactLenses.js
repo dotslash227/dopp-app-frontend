@@ -5,6 +5,7 @@ import {Text, View, Image} from 'react-native';
 import axios from "axios";
 import fetchProductList from "../services/fetchProductList";
 import {connect} from 'react-redux';
+import {toTitleCase} from '../services/utils';
 
 class ContactLenses extends React.Component{
     constructor(props){
@@ -29,7 +30,7 @@ class ContactLenses extends React.Component{
                     id, name
                 }
                 allProducts{
-                    id, name, mrp, discount, salePrice, mrp, manufacturer{name}, available
+                    id, name, mrp, discount, salePrice, mrp, manufacturer{name}, available, build, image
                 }          
             }
         `}
@@ -72,13 +73,14 @@ class ContactLenses extends React.Component{
                     </CardItem>
                     <CardItem>
                         <Left>
-                            <Image source={{uri:"https://static.feelgoodcontacts.net/contact-lenses/img/dailies-total-1786-131.png"}} 
+                            <Image source={{uri:item.image}} 
                             style={{height:150, width:150}} />
                         </Left>
                         <Body>                            
                             <Text>MRP: ₹{item.mrp}</Text>
                             <Text>Discount: {item.discount}%</Text>
                             <Text>Buy Now Price: ₹{item.salePrice}</Text>
+                            <Text>Type: {toTitleCase(item.build)}</Text>
                             <Button full                             
                             style={{marginTop:10}}
                             disabled={!item.available}                            
@@ -141,7 +143,8 @@ class ContactLenses extends React.Component{
 
 const mapStateToProps = (state) =>{
     return{
-        auth: state.auth
+        auth: state.auth,
+        cart: state.cart
     }
 }
 
