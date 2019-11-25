@@ -117,7 +117,7 @@ class CLProduct extends React.Component{
                                 <Text>{product.discount}%</Text>
                             </Col>
                             <Col>
-                                <Text style={styles.labelHeader}>Price</Text>
+                                <Text style={styles.labelHeader}>Price (unit)</Text>
                                 <Text>₹{product.salePrice}</Text>
                             </Col>
                             <Col>
@@ -170,16 +170,22 @@ class CLProduct extends React.Component{
     }
 
     addToCart(){
-        const {product} = this.state;
+        const {product} = this.state;        
         let productData = {
             id: product.id,
             name: product.name,
             image: product.image,
             quantity: this.state.quantity,
-            total: this.state.quantity*product.salePrice,
-            extraData: [this.state.rSpherical, this.state.rCylindrical, this.state.rAxis, this.state.lSpherical, this.state.lCylindrical, this.state.lAxis]
+            total: this.state.quantity*product.salePrice,            
         }
-        this.props.addToCart(productData);
+        if (this.state.rSpherical || this.state.rCylindrical){
+            productData["right"] = [this.state.rSpherical, this.state.rCylindrical, this.state.rAxis];
+            this.props.addToCart(productData);            
+        }
+        if (this.state.lSpherical || this.state.lCylindrical){
+            productData["left"] = [this.state.lSpherical, this.state.lCylindrical, this.state.lAxis];
+            this.props.addToCart(productData);            
+        }
         alert("Product Added to Cart");
         console.log(this.props.cart);
     }

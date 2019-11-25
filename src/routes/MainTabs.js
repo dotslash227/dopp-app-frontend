@@ -6,6 +6,7 @@ import ContactLenses from '../screens/ContactLenses';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import {Icon} from 'native-base';
 import {CLProductStackNavigator} from './ProductRoutes';
+import CartPage from '../screens/Cart';
 
 const TabNavigator = createBottomTabNavigator({
     Home: {
@@ -34,7 +35,7 @@ const TabNavigator = createBottomTabNavigator({
         }
     },
     Cart: {
-        screen: HomeScreen,
+        screen: CartPage,
         navigationOptions:{
             tabBarIcon: () =>{
                 return <Icon name="cart" style={styles.icon} />
