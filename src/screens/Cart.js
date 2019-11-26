@@ -1,8 +1,9 @@
 import React from 'react';
-import {Content, Container, Card, CardItem, Body, Left, Right, Grid, Row, Col} from 'native-base';
+import {Content, Container, Card, CardItem, Body, Left, Right, Button, Icon} from 'native-base';
 import {Text, Image} from 'react-native';
 import HeaderBar from '../components/HeaderBar';
 import {connect} from 'react-redux';
+import {removeFromCart} from '../actions/cartActions';
 
 class CartPage extends React.Component{
     constructor(props){
@@ -11,6 +12,13 @@ class CartPage extends React.Component{
     }
 
     componentDidMount(){
+        console.log(this.props.cart);
+    }
+
+    removeProduct(productKey){
+        console.log("removing from cart");
+        console.log(productKey);
+        this.props.removeProduct(productKey);
         console.log(this.props.cart);
     }
 
@@ -35,7 +43,8 @@ class CartPage extends React.Component{
 
     renderCart(){
         const {products} = this.props.cart;
-        return products.map((item)=>{
+        console.log(products);
+        return products.map((item, key)=>{
             return(
                 <Card>
                     <CardItem header bordered>
@@ -45,6 +54,20 @@ class CartPage extends React.Component{
                         <Body style={{marginLeft:-120}}>
                             {this.renderPower(item)}
                         </Body>                                                                    
+                    </CardItem>
+                    <CardItem>
+                        <Image source={{uri:item.image}} style={{width:"100%", height:200}}></Image>
+                    </CardItem>
+                    <CardItem>
+                        <Left>
+                            <Text>₹{item.total} ({item.quantity} units)</Text>
+                        </Left>                        
+                        <Right>
+                            <Button bordered danger block transparent iconLeft small onPress={()=>this.removeProduct(key)}>
+                                <Icon name="close" style={{marginRight:5}} />
+                                <Text>Remove From Cart</Text>                                
+                            </Button>
+                        </Right>
                     </CardItem>
                 </Card>
             )
@@ -71,4 +94,12 @@ const mapStateToProps = (state) =>{
     }
 }
 
-export default connect(mapStateToProps)(CartPage)
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        removeProduct: (productKey) =>{
+            dispatch(removeFromCart(productKey));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartPage)
