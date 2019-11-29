@@ -1,6 +1,6 @@
 import React from 'react';
-import {Content, Container, Card, CardItem, Body, Left, Right, Button, Icon} from 'native-base';
-import {Text, Image} from 'react-native';
+import {Content, Container, Card, CardItem, Body, Left, Right, Button, Icon, Grid, Row, Col} from 'native-base';
+import {Text, Image, View} from 'react-native';
 import HeaderBar from '../components/HeaderBar';
 import {connect} from 'react-redux';
 import {removeFromCart} from '../actions/cartActions';
@@ -41,10 +41,12 @@ class CartPage extends React.Component{
         }
     }
 
-    renderCart(){
-        const {products} = this.props.cart;
-        console.log(products);
-        return products.map((item, key)=>{
+    renderCart(){ 
+        if(!this.props.cart.products){
+            return <Text style={{textAlign:"center", marginTop:30}}>No Products Added to Your Cart</Text>;
+        }
+        else
+        return this.props.cart.products.map((item, key)=>{
             return(
                 <Card>
                     <CardItem header bordered>
@@ -75,11 +77,26 @@ class CartPage extends React.Component{
     }
 
     render(){
-        return(
+        return(            
             <Container>
-                <HeaderBar title="Your Cart" />
-                <Content>
-                    {(this.props.cart.products)?this.renderCart():<Text style={{textAlign:"center", marginTop:30}}>No Products Added to Your Cart</Text>}
+                <HeaderBar title="Your Cart" />                
+                <Content padder>                    
+                    {this.renderCart()}
+                    <View style={{marginLeft:35, marginBottom: 10, marginTop:10}}>
+                        <Grid>
+                            <Row>
+                                <Col>
+                                    <Text>Total Units : {this.props.cart.count} Units</Text>                                
+                                </Col>
+                                <Col>
+                                    <Text>Sub-total: INR {this.props.cart.sub_total}</Text>
+                                </Col>
+                            </Row>
+                        </Grid>                        
+                    </View>
+                    <Button block medium danger>
+                        <Text style={{color:"white"}}>Checkout</Text>
+                    </Button>
                 </Content>
             </Container>
         )

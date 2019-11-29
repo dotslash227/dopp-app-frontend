@@ -4,26 +4,26 @@ const cart = {
     sub_total: 0
 }
 
-const cartReducer = (state=cart, action) =>{
-    let newState = {};
-    switch(action.type){        
-        case 'ADDTOCART':
-            newState = state;
-            newState.count = newState.count + action.payload.quantity;
-            newState.sub_total = newState.sub_total + action.payload.total;
-            newState.products.push(action.payload);            
-            break;
-        case 'REMOVEFROMCART':
-            newState = {...state}
-            let removed = newState.products.splice(action.payload, 1);
-            newState.count -= removed.quantity;
-            newState.sub_total -= removed.total
-            break;
+const cartReducer = (state=cart, action) =>{    
+    switch(action.type){                
+        case 'ADDTOCART':{            
+            let {products, count, sub_total} = state;
+            products.push(action.payload);
+            count += action.payload.quantity;
+            sub_total += action.payload.total
+            return {...state, products, count, sub_total};
+        }
+        case 'REMOVEFROMCART':{                                    
+            let {products, count, sub_total} = state;
+            count -= products[action.payload].quantity;
+            sub_total -= products[action.payload].total;            
+            products.splice(action.payload, 1);
+            return {...state, products, count, sub_total};
+        }
         default:
-            newState = {...state}
+            return {...state};
                 
-    }
-    return newState;
+    }    
 }
 
 export {cartReducer}
