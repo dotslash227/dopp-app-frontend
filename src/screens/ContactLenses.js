@@ -65,9 +65,9 @@ class ContactLenses extends React.Component{
     }
 
     renderProductList(){        
-        return this.state.productList.map((item)=>{
+        return this.state.productList.map((item, key)=>{
             return (
-                <Card>
+                <Card key={key}>
                     <CardItem header>
                         <Text style={{fontSize:15, color:"navy"}}>{item.name} by {item.manufacturer.name}</Text>
                     </CardItem>
@@ -84,7 +84,7 @@ class ContactLenses extends React.Component{
                             <Button full                             
                             style={{marginTop:10}}
                             disabled={!item.available}                            
-                            onPress={()=>{this.goToProductPage(item.id)}}
+                            onPress={()=>{this.goToProductPage(item.id)}}                            
                             >
                                 <Text style={{color:"white"}}>{(item.available)?"Buy Now":"Out of Stock"}</Text>
                             </Button>
@@ -110,8 +110,8 @@ class ContactLenses extends React.Component{
                                         <Picker mode="dropdown" placeholder="Manufacturer"
                                         selectedValue={this.state.manufacturer}
                                         onValueChange={this.changeManufacturerFilter}>
-                                            {this.state.manufacturerList.map((item)=>{
-                                                return <Picker.Item label={item.name} value={item.id} />
+                                            {this.state.manufacturerList.map((item ,key)=>{
+                                                return <Picker.Item label={item.name} value={item.id} key={key} />
                                             })}                                                
                                         </Picker>                                
                                     </Item>
@@ -121,8 +121,8 @@ class ContactLenses extends React.Component{
                                         <Picker mode="dropdown" placeholder="Modality"
                                         selectedValue={this.state.modality}
                                         onValueChange={(text)=>this.changeModalityFilter(text)}>
-                                            {this.state.modalityList.map((item)=>{
-                                                return <Picker.Item label={item.name} value={item.id} />
+                                            {this.state.modalityList.map((item, key)=>{
+                                                return <Picker.Item label={item.name} value={item.id} key={key} />
                                             })}                                                
                                         </Picker>                                
                                     </Item>

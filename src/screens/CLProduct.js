@@ -27,7 +27,8 @@ class CLProduct extends React.Component{
         let sub_query = `
         query{
             product(id:${Number(this.state.productId)}){
-                id, name, image, manufacturer{name}, categories{name}, mrp, discount, salePrice, available, build, description
+                id, name, image, manufacturer{name}, categories{name}, mrp, discount, salePrice, available, build, description,
+                sphPowers{power}, cylPowers{power}
             }
         }
         `
@@ -40,17 +41,7 @@ class CLProduct extends React.Component{
         }).catch((error)=>{
             console.log(error);
         })
-    }   
-    
-    rangeGenerator(){
-        let ar = [-10];
-        let i = -10;
-        while (i<=15){
-            i = i+0.25;            
-            ar.push(i);                    
-        }        
-        return ar;        
-    }    
+    }       
 
     changeRightPower(power){
         this.setState({rSpherical:power}, ()=>console.log(this.state.rSpherical));
@@ -58,13 +49,36 @@ class CLProduct extends React.Component{
     changeLeftPower(power){
         this.setState({lSpherical:power}, ()=>console.log(this.state.lSpherical));
     }
-
-    updateQuantity(quant){
-        console.log(quant);
+    changeCylinderData(data, type, side){
+        switch(side){
+            case "right":
+                switch(type){
+                    case "sph":
+                        this.setState({rSpherical:data});
+                        break;
+                    case "cyl":
+                        this.setState({rCylindrical:data});
+                        break;
+                    case "axis":
+                        this.setState({rAxis:data});
+                        break;
+                }
+            case "left":
+                switch(type){
+                    case "sph":
+                        this.setState({lSpherical:data});
+                        break;
+                    case "cyl":
+                        this.setState({lCylindrical:data});
+                        break;
+                    case "axis":
+                        this.setState({lAxis:data});
+                        break;
+                }
+        }
     }
 
-    renderSphericalForm(){        
-        const range = this.rangeGenerator()             
+    renderSphericalForm(){                          
         return(
             <Row style={{alignContent:"center"}}>
                 <Col>
@@ -73,8 +87,13 @@ class CLProduct extends React.Component{
                         <Row>
                             <Col>
                                 <Form>
-                                    <Item>
-                                        <Input keyboardType="numbers-and-punctuation" placeholder="Enter Right Spherical" onChangeText={(power)=>this.changeRightPower(power)} />
+                                    <Item picker>
+                                        <Picker dropdown style={{width:210}} placeholder="Select RE Spherical" selectedValue={this.state.rSpherical}>
+                                            {this.state.product.sphPowers.map((item,key)=>{
+                                                return <Picker.Item label={item.id} value={item.power} key={key} />
+                                            })}
+                                        </Picker>
+                                        {/* <Input keyboardType="numbers-and-punctuation" placeholder="Enter Right Spherical" onChangeText={(power)=>this.changeRightPower(power)} /> */}
                                     </Item>                                    
                                 </Form>
                             </Col>
@@ -87,8 +106,12 @@ class CLProduct extends React.Component{
                         <Row>
                             <Col>
                                 <Form>
-                                    <Item>
-                                        <Input keyboardType="numbers-and-punctuation" placeholder="Enter Left Spherical" onChangeText={(power)=>this.changeLeftPower(power)} />
+                                    <Item picker>
+                                        <Picker dropdown style={{width:210}} placeholder="Select LE Spherical" selectedValue={this.state.rSpherical}>
+                                            {this.state.product.sphPowers.map((item,key)=>{
+                                                return <Picker.Item label={item.id} value={item.power} key={key} />
+                                            })}
+                                        </Picker>
                                     </Item>                                    
                                 </Form>
                             </Col>
@@ -97,6 +120,53 @@ class CLProduct extends React.Component{
                 </Col>
             </Row>            
         )        
+    }
+
+    renderCylinderForm(){
+        return(
+            <Row style={{alignContent:"center"}}>
+                <Col>
+                    <Text style={{textAlign:"center"}}>Right Eye</Text>
+                    <Grid>
+                        <Row>
+                            <Col>
+                                <Form>
+                                    <Item>
+                                        <Input keyboardType="numbers-and-punctuation" placeholder="Enter Right Spherical" onChangeText={(power)=>this.changeCylinderData(power, "sph", "right")} />
+                                    </Item>                                    
+                                    <Item>
+                                        <Input keyboardType="numbers-and-punctuation" placeholder="Enter Right Cylinder" onChangeText={(power)=>this.changeCylinderData(power, "cyl", "right")} />
+                                    </Item>                                    
+                                    <Item>
+                                        <Input keyboardType="numbers-and-punctuation" placeholder="Enter Right Axis" onChangeText={(power)=>this.changeCylinderData(power, "axis", "right")} />
+                                    </Item>                                    
+                                </Form>
+                            </Col>
+                        </Row>
+                    </Grid>
+                </Col>
+                <Col>
+                    <Text style={{textAlign:"center"}}>Left Eye</Text>
+                    <Grid>
+                        <Row>
+                            <Col>
+                                <Form>
+                                <Item>
+                                    <Input keyboardType="numbers-and-punctuation" placeholder="Enter Left Spherical" onChangeText={(power)=>this.changeCylinderData(power, "sph", "left")} />
+                                </Item>                                    
+                                <Item>
+                                    <Input keyboardType="numbers-and-punctuation" placeholder="Enter Left Cylinder" onChangeText={(power)=>this.changeCylinderData(power, "cyl", "left")} />
+                                </Item>                                    
+                                <Item>
+                                    <Input keyboardType="numbers-and-punctuation" placeholder="Enter Left Axis" onChangeText={(power)=>this.changeCylinderData(power, "axis", "left")} />
+                                </Item>                                    
+                                </Form>
+                            </Col>
+                        </Row>
+                    </Grid>
+                </Col>
+            </Row> 
+        )
     }
 
     render(){
@@ -129,6 +199,7 @@ class CLProduct extends React.Component{
                     <Text style={{textAlign:"justify"}}>{product.description}</Text>
                     <Grid style={{marginTop:20}}>
                         {(product.build == "SPHERICAL") && this.renderSphericalForm()}
+                        {(product.build == "TORIC") && this.renderCylinderForm()}
                     </Grid>
                     <Text style={{marginTop:10, textAlign:"center", fontSize:20}}>Quantity</Text>
                     <Grid>
@@ -180,13 +251,23 @@ class CLProduct extends React.Component{
         }
         if (this.state.rSpherical || this.state.rCylindrical){
             productData["right"] = [this.state.rSpherical, this.state.rCylindrical, this.state.rAxis];
-            this.props.addToCart(productData);            
+            if(this.state.rCylindrical){
+                if (!this.state.rAxis){
+                    alert("You need to enter Axis of Right Eye with Right Cylinder");
+                }
+                else this.props.addToCart(productData);
+            }
         }
         if (this.state.lSpherical || this.state.lCylindrical){
             productData["left"] = [this.state.lSpherical, this.state.lCylindrical, this.state.lAxis];
-            this.props.addToCart(productData);            
+            if(this.state.lCylindrical){
+                if (!this.state.lAxis){
+                    alert("You need to enter Axis of Left Eye with Left Cylinder");
+                }
+                else this.props.addToCart(productData);
+            }
         }
-        alert("Product Added to Cart");
+        alert("Product Added to Cart");        
         console.log(this.props.cart);
     }
 

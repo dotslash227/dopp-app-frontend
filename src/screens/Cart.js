@@ -42,7 +42,7 @@ class CartPage extends React.Component{
     }
 
     renderCart(){ 
-        if(!this.props.cart.products){
+        if(this.props.cart.quantity == 0){
             return <Text style={{textAlign:"center", marginTop:30}}>No Products Added to Your Cart</Text>;
         }
         else
@@ -82,21 +82,7 @@ class CartPage extends React.Component{
                 <HeaderBar title="Your Cart" />                
                 <Content padder>                    
                     {this.renderCart()}
-                    <View style={{marginLeft:35, marginBottom: 10, marginTop:10}}>
-                        <Grid>
-                            <Row>
-                                <Col>
-                                    <Text>Total Units : {this.props.cart.count} Units</Text>                                
-                                </Col>
-                                <Col>
-                                    <Text>Sub-total: INR {this.props.cart.sub_total}</Text>
-                                </Col>
-                            </Row>
-                        </Grid>                        
-                    </View>
-                    <Button block medium danger>
-                        <Text style={{color:"white"}}>Checkout</Text>
-                    </Button>
+                    
                 </Content>
             </Container>
         )
