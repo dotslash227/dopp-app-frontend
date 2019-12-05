@@ -21,6 +21,7 @@ class CLProduct extends React.Component{
             product: []
         }
         this.changeRightPower = this.changeRightPower.bind(this);
+        this.changeLeftPower = this.changeLeftPower.bind(this);
     }
 
     componentWillMount(){        
@@ -37,6 +38,7 @@ class CLProduct extends React.Component{
             url: "http://localhost:8000/graphql",
             data: {"query":sub_query}
         }).then((response)=>{
+            console.log(response.data.data.product);
             this.setState({product:response.data.data.product});
         }).catch((error)=>{
             console.log(error);
@@ -44,10 +46,10 @@ class CLProduct extends React.Component{
     }       
 
     changeRightPower(power){
-        this.setState({rSpherical:power}, ()=>console.log(this.state.rSpherical));
+        this.setState({rSpherical:power});
     }
     changeLeftPower(power){
-        this.setState({lSpherical:power}, ()=>console.log(this.state.lSpherical));
+        this.setState({lSpherical:power});
     }
     changeCylinderData(data, type, side){
         switch(side){
@@ -88,12 +90,11 @@ class CLProduct extends React.Component{
                             <Col>
                                 <Form>
                                     <Item picker>
-                                        <Picker dropdown style={{width:210}} placeholder="Select RE Spherical" selectedValue={this.state.rSpherical}>
+                                        <Picker dropdown style={{width:210}} placeholder="Select RE Spherical" selectedValue={this.state.rSpherical} onValueChange={this.changeRightPower}>
                                             {this.state.product.sphPowers.map((item,key)=>{
-                                                return <Picker.Item label={item.id} value={item.power} key={key} />
+                                                return <Picker.Item label={item.power} value={item.power} key={key} />
                                             })}
-                                        </Picker>
-                                        {/* <Input keyboardType="numbers-and-punctuation" placeholder="Enter Right Spherical" onChangeText={(power)=>this.changeRightPower(power)} /> */}
+                                        </Picker>                                        
                                     </Item>                                    
                                 </Form>
                             </Col>
@@ -107,9 +108,9 @@ class CLProduct extends React.Component{
                             <Col>
                                 <Form>
                                     <Item picker>
-                                        <Picker dropdown style={{width:210}} placeholder="Select LE Spherical" selectedValue={this.state.rSpherical}>
+                                        <Picker dropdown style={{width:210}} placeholder="Select LE Spherical" selectedValue={this.state.lSpherical} onValueChange={this.changeLeftPower}>
                                             {this.state.product.sphPowers.map((item,key)=>{
-                                                return <Picker.Item label={item.id} value={item.power} key={key} />
+                                                return <Picker.Item label={item.power} value={item.power} key={key} />
                                             })}
                                         </Picker>
                                     </Item>                                    
@@ -131,11 +132,19 @@ class CLProduct extends React.Component{
                         <Row>
                             <Col>
                                 <Form>
-                                    <Item>
-                                        <Input keyboardType="numbers-and-punctuation" placeholder="Enter Right Spherical" onChangeText={(power)=>this.changeCylinderData(power, "sph", "right")} />
+                                    <Item picker>
+                                        <Picker dropdown style={{width:210}} placeholder="Select RE Spherical" selectedValue={this.state.rSpherical} onValueChange={(data)=>this.changeCylinderData(data, 'sph', 'right')}>
+                                            {this.state.product.sphPowers.map((item,key)=>{
+                                                return <Picker.Item label={item.power} value={item.power} key={key} />
+                                            })}
+                                        </Picker>                                        
                                     </Item>                                    
-                                    <Item>
-                                        <Input keyboardType="numbers-and-punctuation" placeholder="Enter Right Cylinder" onChangeText={(power)=>this.changeCylinderData(power, "cyl", "right")} />
+                                    <Item picker>
+                                        <Picker dropdown style={{width:210}} placeholder="Select RE Cylinder" selectedValue={this.state.rCylindrical} onValueChange={(data)=>this.changeCylinderData(data, 'cyl', 'right')}>
+                                            {this.state.product.sphPowers.map((item,key)=>{
+                                                return <Picker.Item label={item.power} value={item.power} key={key} />
+                                            })}
+                                        </Picker>                                        
                                     </Item>                                    
                                     <Item>
                                         <Input keyboardType="numbers-and-punctuation" placeholder="Enter Right Axis" onChangeText={(power)=>this.changeCylinderData(power, "axis", "right")} />
@@ -151,15 +160,23 @@ class CLProduct extends React.Component{
                         <Row>
                             <Col>
                                 <Form>
-                                <Item>
-                                    <Input keyboardType="numbers-and-punctuation" placeholder="Enter Left Spherical" onChangeText={(power)=>this.changeCylinderData(power, "sph", "left")} />
-                                </Item>                                    
-                                <Item>
-                                    <Input keyboardType="numbers-and-punctuation" placeholder="Enter Left Cylinder" onChangeText={(power)=>this.changeCylinderData(power, "cyl", "left")} />
-                                </Item>                                    
-                                <Item>
-                                    <Input keyboardType="numbers-and-punctuation" placeholder="Enter Left Axis" onChangeText={(power)=>this.changeCylinderData(power, "axis", "left")} />
-                                </Item>                                    
+                                    <Item picker>
+                                        <Picker dropdown style={{width:210}} placeholder="Select LE Spherical" selectedValue={this.state.lSpherical} onValueChange={(data)=>this.changeCylinderData(data, 'sph', 'left')}>
+                                            {this.state.product.sphPowers.map((item,key)=>{
+                                                return <Picker.Item label={item.power} value={item.power} key={key} />
+                                            })}
+                                        </Picker>                                        
+                                    </Item>                                    
+                                    <Item picker>
+                                        <Picker dropdown style={{width:210}} placeholder="Select LE Cylinder" selectedValue={this.state.lCylindrical} onValueChange={(data)=>this.changeCylinderData(data, 'cyl', 'left')}>
+                                            {this.state.product.sphPowers.map((item,key)=>{
+                                                return <Picker.Item label={item.power} value={item.power} key={key} />
+                                            })}
+                                        </Picker>                                        
+                                    </Item>                                    
+                                    <Item>
+                                        <Input keyboardType="numbers-and-punctuation" placeholder="Enter Left Axis" onChangeText={(power)=>this.changeCylinderData(power, "axis", "left")} />
+                                    </Item>                                    
                                 </Form>
                             </Col>
                         </Row>
