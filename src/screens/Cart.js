@@ -23,26 +23,16 @@ class CartPage extends React.Component{
     }
 
     renderPower(product){
-        if (product.right){
-            if (product.right[2]){
-                return <Text>Powered: {product.right[0]} Spherical/{product.right[1]} Cylinder x {product.right[2]} Axis</Text>
-            }
-            else{
-                return <Text>Power: {product.right[0]} Spherical</Text>
-            }
+        if (product.power.cyl){            
+            return <Text>Power: {product.power.sph} Spherical/{product.power.cyl} Cylinder x {product.power.axis} Axis</Text>;
         }
-        if (product.left){
-            if (product.left[2]){
-                return <Text>{product.left[0]} Spherical /{product.left[1]} Cylinder x {product.left[2]} Axis</Text>
-            }
-            else{
-                return <Text>{product.left[0]} Spherical</Text>
-            }
-        }
+        else{
+            return <Text>Power: {product.power.sph} Spherical</Text>;
+        }        
     }
 
     renderCart(){ 
-        if(this.props.cart.quantity == 0){
+        if(this.props.cart.count == 0){
             return <Text style={{textAlign:"center", marginTop:30}}>No Products Added to Your Cart</Text>;
         }
         else
@@ -81,8 +71,7 @@ class CartPage extends React.Component{
             <Container>
                 <HeaderBar title="Your Cart" />                
                 <Content padder>                    
-                    {this.renderCart()}
-                    
+                    {this.renderCart()}                    
                 </Content>
             </Container>
         )

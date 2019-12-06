@@ -11,12 +11,12 @@ class CLProduct extends React.Component{
         super(props);
         this.state = {
             productId: this.props.navigation.getParam("productId"),
-            rSpherical:'',
-            rCylindrical: '',
-            rAxis: '',
-            lSpherical: '',
-            lCylindrical: '',
-            lAxis: '',
+            rSpherical:null,
+            rCylindrical:null,
+            rAxis:null,
+            lSpherical:null,
+            lCylindrical:null,
+            lAxis:null,
             quantity: 1,
             product: []
         }
@@ -29,7 +29,7 @@ class CLProduct extends React.Component{
         query{
             product(id:${Number(this.state.productId)}){
                 id, name, image, manufacturer{name}, categories{name}, mrp, discount, salePrice, available, build, description,
-                sphPowers{power}, cylPowers{power}
+                sphPowers{power}, cylPowers{power}, axis{axis}
             }
         }
         `
@@ -54,6 +54,7 @@ class CLProduct extends React.Component{
     changeCylinderData(data, type, side){
         switch(side){
             case "right":
+                console.log("updating right data");
                 switch(type){
                     case "sph":
                         this.setState({rSpherical:data});
@@ -65,7 +66,9 @@ class CLProduct extends React.Component{
                         this.setState({rAxis:data});
                         break;
                 }
+                break;
             case "left":
+                console.log("updating left data");
                 switch(type){
                     case "sph":
                         this.setState({lSpherical:data});
@@ -77,6 +80,7 @@ class CLProduct extends React.Component{
                         this.setState({lAxis:data});
                         break;
                 }
+                break;
         }
     }
 
@@ -146,9 +150,13 @@ class CLProduct extends React.Component{
                                             })}
                                         </Picker>                                        
                                     </Item>                                    
-                                    <Item>
-                                        <Input keyboardType="numbers-and-punctuation" placeholder="Enter Right Axis" onChangeText={(power)=>this.changeCylinderData(power, "axis", "right")} />
-                                    </Item>                                    
+                                    <Item picker>
+                                        <Picker dropdown style={{width:210}} placeholder="Select RE Axis" selectedValue={this.state.rAxis} onValueChange={(data)=>this.changeCylinderData(data, 'axis', 'right')}>
+                                            {this.state.product.axis.map((item,key)=>{
+                                                return <Picker.Item label={item.axis} value={item.axis} key={key} />
+                                            })}
+                                        </Picker>                                        
+                                    </Item>
                                 </Form>
                             </Col>
                         </Row>
@@ -174,9 +182,11 @@ class CLProduct extends React.Component{
                                             })}
                                         </Picker>                                        
                                     </Item>                                    
-                                    <Item>
-                                        <Input keyboardType="numbers-and-punctuation" placeholder="Enter Left Axis" onChangeText={(power)=>this.changeCylinderData(power, "axis", "left")} />
-                                    </Item>                                    
+                                    <Picker dropdown style={{width:210}} placeholder="Select LE Axis" selectedValue={this.state.lAxis} onValueChange={(data)=>this.changeCylinderData(data, 'axis', 'left')}>
+                                        {this.state.product.axis.map((item,key)=>{
+                                            return <Picker.Item label={item.axis} value={item.axis} key={key} />
+                                        })}
+                                    </Picker>                                        
                                 </Form>
                             </Col>
                         </Row>
@@ -259,33 +269,61 @@ class CLProduct extends React.Component{
 
     addToCart(){
         const {product} = this.state;        
-        let productData = {
+        const productData = {
             id: product.id,
             name: product.name,
             image: product.image,
+            build: product.build,
             quantity: this.state.quantity,
             total: this.state.quantity*product.salePrice,            
-        }
-        if (this.state.rSpherical || this.state.rCylindrical){
-            productData["right"] = [this.state.rSpherical, this.state.rCylindrical, this.state.rAxis];
-            if(this.state.rCylindrical){
-                if (!this.state.rAxis){
-                    alert("You need to enter Axis of Right Eye with Right Cylinder");
+        }            
+        switch(productData.build){
+            case 'SPHERICAL':
+                if(!this.state.rSpherical && !this.state.lSpherical){
+                    alert("You need to add power of at least one lens");
                 }
-                else this.props.addToCart(productData);
-            }
-        }
-        if (this.state.lSpherical || this.state.lCylindrical){
-            productData["left"] = [this.state.lSpherical, this.state.lCylindrical, this.state.lAxis];
-            if(this.state.lCylindrical){
-                if (!this.state.lAxis){
-                    alert("You need to enter Axis of Left Eye with Left Cylinder");
+                else{
+                    if(this.state.rSpherical){
+                        let power = {sph:this.state.rSpherical};
+                        const productInfo = {...productData, power:power}
+                        this.props.addToCart(productInfo);
+                    }
+                    if(this.state.lSpherical){
+                        let power = {sph:this.state.lSpherical};
+                        const productInfo = {...productData, power:power}
+                        this.props.addToCart(productInfo);
+                    }
                 }
-                else this.props.addToCart(productData);
+            break;
+            case 'TORIC':{         
+                if(!this.state.rCylindrical && !this.state.lCylindrical){
+                    alert("Cylinder is need for either of the eye");
+                }
+                else{
+                    if(this.state.rSpherical || this.state.rCylindrical || this.state.rAxis){
+                        if(!this.state.rCylindrical || !this.state.rAxis){
+                            alert("Cylinder and Axis for Right Eye is needed to proceed for this product");
+                        }
+                        else{
+                            let power = {sph:this.state.rSpherical, cyl:this.state.rCylindrical, axis:this.state.rAxis}
+                            const productInfo = {...productData, power:power}
+                            this.props.addToCart(productInfo);
+                        }                        
+                    }
+                    if(this.state.lSpherical || this.state.lCylindrical || this.state.lAxis){
+                        if(!this.state.lCylindrical || !this.state.lAxis){
+                            alert("Cylinder and Axis for Left Eye is needed to proceed for this product");
+                        }
+                        else{
+                            let power = {sph:this.state.lSpherical, cyl:this.state.lCylindrical, axis:this.state.lAxis}
+                            const productInfo = {...productData, power:power}
+                            this.props.addToCart(productInfo);
+                        }                        
+                    }
+                }
             }
-        }
-        alert("Product Added to Cart");        
-        console.log(this.props.cart);
+            break;
+        }        
     }
 
 }
