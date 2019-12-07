@@ -5,9 +5,10 @@ import HomeScreen from '../screens/Home';
 import ContactLenses from '../screens/ContactLenses';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import {Icon} from 'native-base';
-import {CLProductStackNavigator} from './ProductRoutes';
 import CartPage from '../screens/Cart';
 import SpectaclesScreen from '../screens/Spectacles';
+import {CLProductStackNavigator} from './ProductRoutes';
+import {checkoutStackNavigator} from './CheckoutRouter';
 
 const TabNavigator = createBottomTabNavigator({
     Home: {
@@ -36,7 +37,7 @@ const TabNavigator = createBottomTabNavigator({
         }
     },
     Cart: {
-        screen: CartPage,
+        screen: checkoutStackNavigator,
         navigationOptions:{
             tabBarIcon: () =>{
                 return <Icon name="cart" style={styles.icon} />
@@ -53,9 +54,18 @@ const TabNavigator = createBottomTabNavigator({
     }
 })
 
+checkoutStackNavigator.navigationOptions = ({navigation}) =>{
+    let tabBarVisible = true;
+    if(navigation.state.index > 0){
+        tabBarVisible = false;
+    }
+    return{
+        tabBarVisible
+    };
+}
+
 const switchNavigator = createSwitchNavigator({
-    MainTabs: TabNavigator,
-    // ContactLenses: CLProductStackNavigator
+    MainTabs: TabNavigator,        
 },{
     initialRouteName: "MainTabs"
 })

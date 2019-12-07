@@ -67,8 +67,8 @@ class CartPage extends React.Component{
     }
 
     render(){
-        const checkoutBar = () =>{
-            return(
+        const checkoutBar = () =>{            
+            if(this.props.cart.count) return(
                 <Content padder style={{marginBottom:-470, marginLeft: 45}}>
                     <View>
                         <Grid>
@@ -81,7 +81,7 @@ class CartPage extends React.Component{
                                 </Col>
                             </Row>
                         </Grid>
-                        <Button block small success style={{maxWidth:300, marginTop:10}}>
+                        <Button block small success style={{maxWidth:300, marginTop:10}} onPress={()=>this.props.navigation.navigate("Checkout")}>
                             <Text style={{color:"white"}}>Checkout</Text>
                         </Button>
                     </View>    
@@ -91,8 +91,8 @@ class CartPage extends React.Component{
 
         return(            
             <Container>
-                <HeaderBar title="Your Cart" />                                    
-                {(this.props.cart.count) && checkoutBar()}
+                <HeaderBar title="Your Cart" />                                                    
+                {checkoutBar()}
                 <Content padder>                                    
                     {this.renderCart()}                    
                 </Content>
