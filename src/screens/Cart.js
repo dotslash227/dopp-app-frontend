@@ -37,7 +37,7 @@ class CartPage extends React.Component{
         }
         else
         return this.props.cart.products.map((item, key)=>{
-            return(
+            return(                
                 <Card>
                     <CardItem header bordered>
                         <Left>
@@ -67,10 +67,33 @@ class CartPage extends React.Component{
     }
 
     render(){
+        const checkoutBar = () =>{
+            return(
+                <Content padder style={{marginBottom:-470, marginLeft: 45}}>
+                    <View>
+                        <Grid>
+                            <Row>
+                                <Col>
+                                    <Text>Total Units: {this.props.cart.count}</Text>
+                                </Col>
+                                <Col>
+                                    <Text>Total Price: {this.props.cart.sub_total}</Text>
+                                </Col>
+                            </Row>
+                        </Grid>
+                        <Button block small success style={{maxWidth:300, marginTop:10}}>
+                            <Text style={{color:"white"}}>Checkout</Text>
+                        </Button>
+                    </View>    
+                </Content>      
+            )
+        }                                        
+
         return(            
             <Container>
-                <HeaderBar title="Your Cart" />                
-                <Content padder>                    
+                <HeaderBar title="Your Cart" />                                    
+                {(this.props.cart.count) && checkoutBar()}
+                <Content padder>                                    
                     {this.renderCart()}                    
                 </Content>
             </Container>
