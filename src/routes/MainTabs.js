@@ -7,6 +7,7 @@ import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import {Icon} from 'native-base';
 import {CLProductStackNavigator} from './ProductRoutes';
 import CartPage from '../screens/Cart';
+import SpectaclesScreen from '../screens/Spectacles';
 
 const TabNavigator = createBottomTabNavigator({
     Home: {
@@ -27,7 +28,7 @@ const TabNavigator = createBottomTabNavigator({
         },
     },    
     Spectacles: {
-        screen: HomeScreen,
+        screen: SpectaclesScreen,
         navigationOptions:{
             tabBarIcon: () =>{
                 return <Icon type="MaterialIcons" name="voicemail" style={styles.icon} />
