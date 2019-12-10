@@ -10,7 +10,12 @@ class CheckoutScreen extends React.Component{
         this.state = {}
     }    
 
-    render(){        
+    render(){  
+        if(!this.props.auth.token) {
+            this.props.navigation.navigate("Auth");
+            return null;
+        }
+        else
         return(
             <Container>
                 <HeaderBar title="Checkout" {...this.props} back />

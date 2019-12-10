@@ -5,7 +5,10 @@ import LoginScreen from '../screens/Auth/Login';
 const authNavigator = createStackNavigator({
     Login:LoginScreen
 }, {
-    initialRouteName: "Login"
+    initialRouteName: "Login",
+    defaultNavigationOptions:{
+        header:null
+    }
 })
 
 export {authNavigator};
