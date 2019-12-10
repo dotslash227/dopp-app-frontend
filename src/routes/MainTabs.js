@@ -2,13 +2,12 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import HomeScreen from '../screens/Home';
-import ContactLenses from '../screens/ContactLenses';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import {Icon} from 'native-base';
-import CartPage from '../screens/Cart';
 import SpectaclesScreen from '../screens/Spectacles';
 import {CLProductStackNavigator} from './ProductRoutes';
 import {checkoutStackNavigator} from './CheckoutRouter';
+import {authNavigator} from './AuthRouter';
 
 const TabNavigator = createBottomTabNavigator({
     Home: {
@@ -64,8 +63,9 @@ checkoutStackNavigator.navigationOptions = ({navigation}) =>{
     };
 }
 
-const switchNavigator = createSwitchNavigator({
-    MainTabs: TabNavigator,        
+const switchNavigator = createSwitchNavigator({    
+    MainTabs: TabNavigator,            
+    Auth: authNavigator,
 },{
     initialRouteName: "MainTabs"
 })

@@ -323,7 +323,8 @@ class CLProduct extends React.Component{
                 }
             }
             break;
-        }        
+        }    
+        alert("Contact Lenses added to cart");
     }
 
 }

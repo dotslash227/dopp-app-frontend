@@ -10,7 +10,7 @@ class CheckoutScreen extends React.Component{
         this.state = {}
     }    
 
-    render(){
+    render(){        
         return(
             <Container>
                 <HeaderBar title="Checkout" {...this.props} back />
@@ -22,4 +22,11 @@ class CheckoutScreen extends React.Component{
     }
 }
 
-export default CheckoutScreen;
+const mapStateToProps = (state) =>{
+    return{
+        auth: state.auth,
+        cart: state.cart
+    }
+}
+
+export default connect(mapStateToProps)(CheckoutScreen)
