@@ -17,7 +17,7 @@ class LoginScreen extends React.Component{
     render(){
         return(
             <Container>                
-                <HeaderBar title="Login" backToMain {...this.props} />
+                <HeaderBar title="Login" backToCart {...this.props} />
                 <Content padder>
                     <Text style={{textAlign:"center"}}>Please login or signup to continue the checkout process</Text>
                     <Form style={{marginTop:100}}>                        
@@ -31,6 +31,9 @@ class LoginScreen extends React.Component{
                             </Button>
                             <Button block large bordered style={{marginTop:20}}>
                                 <Text>Signup</Text>
+                            </Button>  
+                            <Button block large dark bordered style={{marginTop:20}}>
+                                <Text>Checkout As Guest</Text>
                             </Button>                            
                         </View>
                     </Form>

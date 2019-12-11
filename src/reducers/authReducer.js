@@ -1,9 +1,9 @@
 const authState = {
-    token: '',
-    id: '',
-    username: '',
-    email: '',
-    mobile: ''
+    token: 'sample-token',
+    id: undefined,
+    username: undefined,
+    email: undefined,
+    mobile: undefined
 }
 
 const authReducer = (state=authState, action) =>{
@@ -24,4 +24,4 @@ const authReducer = (state=authState, action) =>{
     return state;
 }
 
-export {authReducer}
+export {authReducer};
