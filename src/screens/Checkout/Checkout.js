@@ -49,8 +49,7 @@ class CheckoutScreen extends React.Component{
     }
 
     render(){  
-        if(true){
-            console.log(this.props.auth)
+        if(this.props.auth.token){            
             return(
                 <Container>
                     <HeaderBar title="Select/Add Address" {...this.props} back />

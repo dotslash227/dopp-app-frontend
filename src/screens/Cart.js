@@ -12,14 +12,11 @@ class CartPage extends React.Component{
     }
 
     componentDidMount(){
-        console.log(this.props.cart);
+        console.log(this.props.cart);        
     }
 
-    removeProduct(productKey){
-        console.log("removing from cart");
-        console.log(productKey);
-        this.props.removeProduct(productKey);
-        console.log(this.props.cart);
+    removeProduct(productKey){        
+        this.props.removeProduct(productKey);        
     }
 
     renderPower(product){
