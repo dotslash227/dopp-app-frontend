@@ -4,3 +4,10 @@ export function userLogin(user){
         payload: user
     }
 }
+
+export function anonymousLogin(){
+    return{
+        type: 'ANONYMOUS',
+        payload: "anonymous"
+    }
+}

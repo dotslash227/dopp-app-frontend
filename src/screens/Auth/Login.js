@@ -3,7 +3,7 @@ import {Content, Container, Button, Form, Item, Label, Input} from 'native-base'
 import {Text, StyleSheet, View} from 'react-native';
 import {connect} from 'react-redux';
 import HeaderBar from '../../components/HeaderBar';
-import { Number } from 'core-js';
+import {anonymousLogin} from '../../actions/authActions';
 
 class LoginScreen extends React.Component{
     constructor(props){
@@ -12,6 +12,12 @@ class LoginScreen extends React.Component{
             mobile: '',
             otp:''        
         }        
+    }
+
+    checkoutAsGuest(){
+        this.props.anonyLogin();
+        console.log(this.props.auth);
+        this.props.navigation.navigate("Checkout");
     }
 
     render(){
@@ -32,7 +38,7 @@ class LoginScreen extends React.Component{
                             <Button block large bordered style={{marginTop:20}}>
                                 <Text>Signup</Text>
                             </Button>  
-                            <Button block large dark bordered style={{marginTop:20}}>
+                            <Button block large dark bordered style={{marginTop:20}} onPress={()=>this.checkoutAsGuest()}>
                                 <Text>Checkout As Guest</Text>
                             </Button>                            
                         </View>
@@ -49,4 +55,12 @@ const mapStateToProps = (state) =>{
     }
 }
 
-export default connect(mapStateToProps)(LoginScreen);
+const mapDispatchToProps = (dispatch) => {
+    return{
+        anonyLogin: () =>{
+            dispatch(anonymousLogin());
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

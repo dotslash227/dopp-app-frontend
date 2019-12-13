@@ -2,7 +2,7 @@ const authState = {
     firstName: '',
     lastName: '',
     mobile: '',
-    token:'123'
+    token:''
 }
 
 const authReducer = (state=authState, action) =>{
@@ -17,6 +17,8 @@ const authReducer = (state=authState, action) =>{
                 firstName: '', lastName: '', mobile:'', token:''
             };
             break; 
+        case "ANONYMOUS":
+            state = {...state, token:action.payload}
         default:
             state = {...state}      
             break;

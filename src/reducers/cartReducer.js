@@ -1,7 +1,17 @@
 const cart = {
-    products: [],
-    count: 0,
-    sub_total: 0
+    products: [
+        {
+            build: "SPHERICAL", 
+            id: "1", 
+            image:"http://localhost:8000/media/products/dt1.jpg", 
+            name: "Dailies Total 1",
+            quantity: 1, 
+            total: 3080,
+            power:{sph:-1.00}
+        }
+    ],
+    count: 1,
+    sub_total: 500
 }
 
 const cartReducer = (state=cart, action) =>{    

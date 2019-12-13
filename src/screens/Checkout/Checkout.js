@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text} from 'react-native';
-import {Container, Content, Form, Input, Label, Item, Button} from 'native-base';
+import {Container, Content, Form, Input, Label, Item, Button, CheckBox, Grid, Row, Col} from 'native-base';
 import HeaderBar from '../../components/HeaderBar';
 import {connect} from 'react-redux';
 
@@ -15,8 +15,8 @@ class CheckoutScreen extends React.Component{
             locality: '',
             landmark: '',
             city: '',
-            pincode: ''
-        }
+            pincode: '',                     
+        }        
     }    
 
     handleData(data, dataType){
@@ -44,7 +44,15 @@ class CheckoutScreen extends React.Component{
                 break;
             case 'pincode':
                 this.setState({pincode:data});
-                break;
+                break;            
+        }
+    }
+
+    handleSubmit(){
+        const {firstName, lastName, add1, add2, locality, landmark, city, pincode} = this.state;
+        if(!firstName || !lastName || !add1 || !add2 || !locality || !landmark || !city || !pincode) alert("All fields are compulsory");
+        else{
+            alert("Form submiitted")
         }
     }
 
@@ -53,50 +61,50 @@ class CheckoutScreen extends React.Component{
             return(
                 <Container>
                     <HeaderBar title="Select/Add Address" {...this.props} back />
-                    <Content>
-                        <Form>
+                    <Content>                        
+                        <Form>                                                 
                             <Item stackedLabel>
                                 <Label>First Name</Label>
-                                <Input />
+                                <Input onChangeText={(data)=>this.handleData(data, "firstName")} />
                             </Item>
                             <Item stackedLabel>
                                 <Label>Last Name</Label>
-                                <Input />
+                                <Input onChangeText={(data)=>this.handleData(data, "lastName")} />
                             </Item>
                             <Item stackedLabel>
                                 <Label>Address Line 1</Label>
-                                <Input />
+                                <Input onChangeText={(data)=>this.handleData(data, "add1")} />
                             </Item>
                             <Item stackedLabel>
                                 <Label>Address Line 2</Label>
-                                <Input />
+                                <Input onChangeText={(data)=>this.handleData(data, "add2")} />
                             </Item>
                             <Item stackedLabel>
                                 <Label>Locality</Label>
-                                <Input />
+                                <Input onChangeText={(data)=>this.handleData(data, "locality")} />
                             </Item>
                             <Item stackedLabel>
                                 <Label>Landmark</Label>
-                                <Input />
+                                <Input onChangeText={(data)=>this.handleData(data, "landmark")} />
                             </Item>
                             <Item stackedLabel>
                                 <Label>City</Label>
-                                <Input />
+                                <Input onChangeText={(data)=>this.handleData(data, "city")} />
                             </Item>
                             <Item stackedLabel>
                                 <Label>Pincode</Label>
-                                <Input />
+                                <Input onChangeText={(data)=>this.handleData(data, "pincode")} />
                             </Item>
                         </Form>
-                        <Button block full primary disabled>
+                        <Button block full primary onPress={()=>this.handleSubmit()}>
                             <Text style={{color:"white"}}>Save and Continue</Text>
                         </Button>
                     </Content>
                 </Container>
             )
         }
-        else{
-            alert("hooray");
+        else{            
+            this.props.navigation.navigate("Login");
             return null;
         }
     }
