@@ -5,6 +5,7 @@ import HomeScreen from './screens/Home';
 import AppContainer from './routes/MainTabs';
 import {authReducer} from './reducers/authReducer';
 import {cartReducer} from './reducers/cartReducer';
+import {addressReducer} from './reducers/addressReducer';
 import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -18,7 +19,8 @@ const persistConfig = {
 
 const rootReducer =  combineReducers({
   auth: authReducer,
-  cart: cartReducer
+  cart: cartReducer,
+  address: addressReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

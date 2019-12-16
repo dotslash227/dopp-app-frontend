@@ -1,8 +1,8 @@
 const authState = {
-    firstName: '',
-    lastName: '',
+    token:'',
     mobile: '',
-    token:''
+    firstName: '',
+    lastName: ''
 }
 
 const authReducer = (state=authState, action) =>{

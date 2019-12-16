@@ -14,9 +14,8 @@ class LoginScreen extends React.Component{
         }        
     }
 
-    checkoutAsGuest(){
-        this.props.anonyLogin();
-        console.log(this.props.auth);
+    checkoutAsGuest(){        
+        this.props.anonyLogin();        
         this.props.navigation.navigate("Checkout");
     }
 
@@ -33,13 +32,10 @@ class LoginScreen extends React.Component{
                         </Item>
                         <View style={{maxWidth:300, marginLeft:50, marginTop:20}}>
                             <Button block large bordered danger>
-                                <Text>Log In</Text>
-                            </Button>
-                            <Button block large bordered style={{marginTop:20}}>
-                                <Text>Signup</Text>
-                            </Button>  
+                                <Text>Log In / Signup</Text>
+                            </Button>                            
                             <Button block large dark bordered style={{marginTop:20}} onPress={()=>this.checkoutAsGuest()}>
-                                <Text>Checkout As Guest</Text>
+                                <Text>Continue As Guest</Text>
                             </Button>                            
                         </View>
                     </Form>

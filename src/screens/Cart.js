@@ -11,10 +11,6 @@ class CartPage extends React.Component{
         this.state = {}
     }
 
-    componentDidMount(){
-        console.log(this.props.cart);        
-    }
-
     removeProduct(productKey){        
         this.props.removeProduct(productKey);        
     }

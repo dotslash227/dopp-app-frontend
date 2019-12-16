@@ -3,6 +3,7 @@ import {Text} from 'react-native';
 import {Container, Content, Form, Input, Label, Item, Button, CheckBox, Grid, Row, Col} from 'native-base';
 import HeaderBar from '../../components/HeaderBar';
 import {connect} from 'react-redux';
+import {addAddress} from '../../actions/addressActions';
 
 class CheckoutScreen extends React.Component{
     constructor(props){
@@ -51,8 +52,11 @@ class CheckoutScreen extends React.Component{
     handleSubmit(){
         const {firstName, lastName, add1, add2, locality, landmark, city, pincode} = this.state;
         if(!firstName || !lastName || !add1 || !add2 || !locality || !landmark || !city || !pincode) alert("All fields are compulsory");
-        else{
-            alert("Form submiitted")
+        else{            
+            let address = {
+                ...this.state
+            }
+            this.props.addAddressToState(address);            
         }
     }
 
@@ -113,8 +117,17 @@ class CheckoutScreen extends React.Component{
 const mapStateToProps = (state) =>{
     return{
         auth: state.auth,
-        cart: state.cart
+        cart: state.cart,
+        address: state.address
     }
 }
 
-export default connect(mapStateToProps)(CheckoutScreen)
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        addAddressToState: (address) =>{            
+            dispatch(addAddress(address));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutScreen)
