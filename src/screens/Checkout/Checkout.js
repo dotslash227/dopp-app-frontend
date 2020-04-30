@@ -56,7 +56,9 @@ class CheckoutScreen extends React.Component{
             let address = {
                 ...this.state
             }
-            this.props.addAddressToState(address);            
+            console.log(address);
+            this.props.addAddressToState(address);
+            console.log("address in redux state: ", this.props.address);
         }
     }
 
@@ -69,35 +71,35 @@ class CheckoutScreen extends React.Component{
                         <Form>                                                 
                             <Item stackedLabel>
                                 <Label>First Name</Label>
-                                <Input onChangeText={(data)=>this.handleData(data, "firstName")} />
+                                <Input value={this.props.address.firstName} onChangeText={(data)=>this.handleData(data, "firstName")} />
                             </Item>
                             <Item stackedLabel>
                                 <Label>Last Name</Label>
-                                <Input onChangeText={(data)=>this.handleData(data, "lastName")} />
+                                <Input value={this.props.address.lastName} onChangeText={(data)=>this.handleData(data, "lastName")} />
                             </Item>
                             <Item stackedLabel>
                                 <Label>Address Line 1</Label>
-                                <Input onChangeText={(data)=>this.handleData(data, "add1")} />
+                                <Input value={this.props.address.add1} onChangeText={(data)=>this.handleData(data, "add1")} />
                             </Item>
                             <Item stackedLabel>
                                 <Label>Address Line 2</Label>
-                                <Input onChangeText={(data)=>this.handleData(data, "add2")} />
+                                <Input value={this.props.address.add2} onChangeText={(data)=>this.handleData(data, "add2")} />
                             </Item>
                             <Item stackedLabel>
                                 <Label>Locality</Label>
-                                <Input onChangeText={(data)=>this.handleData(data, "locality")} />
+                                <Input value={this.props.address.locality} onChangeText={(data)=>this.handleData(data, "locality")} />
                             </Item>
                             <Item stackedLabel>
                                 <Label>Landmark</Label>
-                                <Input onChangeText={(data)=>this.handleData(data, "landmark")} />
+                                <Input value={this.props.address.landmark} onChangeText={(data)=>this.handleData(data, "landmark")} />
                             </Item>
                             <Item stackedLabel>
                                 <Label>City</Label>
-                                <Input onChangeText={(data)=>this.handleData(data, "city")} />
+                                <Input value={this.props.address.city} onChangeText={(data)=>this.handleData(data, "city")} />
                             </Item>
                             <Item stackedLabel>
                                 <Label>Pincode</Label>
-                                <Input onChangeText={(data)=>this.handleData(data, "pincode")} />
+                                <Input value={this.props.address.pincode} onChangeText={(data)=>this.handleData(data, "pincode")} />
                             </Item>
                         </Form>
                         <Button block full primary onPress={()=>this.handleSubmit()}>
